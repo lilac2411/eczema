@@ -1,0 +1,58 @@
+[
+  {
+    "date": "2026-11-06",
+    "medication": "hycrocotsione",
+    "image": "data/images/e556afb4e68e4ce1a6a246668b78ec96.jpg",
+    "cv": {
+      "redness_delta": 8.95,
+      "area_pct": 45.27,
+      "redness_score": 3.58
+    },
+    "llm": {
+      "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://aistudio.google.com/docs/get-started).', 'status': 'NOT_FOUND'}}"
+    },
+    "severity": 3.58
+  },
+  {
+    "date": "2026-11-07",
+    "medication": "hycrocotsione",
+    "image": "data/images/93e8ef697aba499ab42d1391eea0dcb0.jpg",
+    "cv": {
+      "redness_delta": 13.47,
+      "area_pct": 79.38,
+      "redness_score": 5.39
+    },
+    "llm": {
+      "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://aistudio.google.com/docs/get-started).', 'status': 'NOT_FOUND'}}"
+    },
+    "severity": 5.39
+  },
+  {
+    "date": "2026-11-07",
+    "medication": "hycrocotsione",
+    "image": "data/images/f77330bc44d14d3fbcfcc9259f5629e7.jpg",
+    "cv": {
+      "redness_delta": 13.47,
+      "area_pct": 79.38,
+      "redness_score": 5.39
+    },
+    "llm": {
+      "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://aistudio.google.com/docs/get-started).', 'status': 'NOT_FOUND'}}"
+    },
+    "severity": 5.39
+  },
+  {
+    "date": "2026-11-07",
+    "medication": "hycrocotsione",
+    "image": "data/images/88cf9ceb82794b658269ed7fbb85f282.jpg",
+    "cv": {
+      "redness_delta": 0.0,
+      "area_pct": 0.0,
+      "redness_score": 0.0
+    },
+    "llm": {
+      "error": "404 NOT_FOUND. {'error': {'code': 404, 'message': 'This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://aistudio.google.com/docs/get-started).', 'status': 'NOT_FOUND'}}"
+    },
+    "severity": 0.0
+  }
+]

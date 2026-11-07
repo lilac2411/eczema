@@ -3,6 +3,8 @@ import json
 import uuid
 from pathlib import Path
 
+import hardware_ui as HW
+
 import cv2
 import pandas as pd
 import plotly.graph_objects as go
@@ -16,7 +18,7 @@ DB = DATA / "entries.json"
 IMG_DIR.mkdir(parents=True, exist_ok=True)
 
 st.set_page_config(page_title="Eczema Tracker", layout="wide")
-
+HW.apply_pending_camera_request()
 
 def load_entries() -> list[dict]:
     return json.loads(DB.read_text()) if DB.exists() else []
@@ -27,7 +29,7 @@ def save_entries(entries: list[dict]):
     DB.write_text(json.dumps(entries, indent=2))
 
 
-def add_entry(file_bytes: bytes, date: dt.date, med: str, crop: int, show_warnings=True):
+def add_entry(file_bytes: bytes, date: dt.date, med: str, crop: int, show_warnings=True, env: dict | None = None):
     img = A.center_crop(A.load_bgr(file_bytes), crop)
     if show_warnings:
         for w in A.quality_warnings(img):
@@ -42,27 +44,31 @@ def add_entry(file_bytes: bytes, date: dt.date, med: str, crop: int, show_warnin
 
     path = IMG_DIR / f"{uuid.uuid4().hex}.jpg"
     cv2.imwrite(str(path), img)
-
-    entries = load_entries()
-    entries.append({
+    entry = {
         "date": date.isoformat(), "medication": med, "image": str(path),
         "cv": cv, "llm": llm, "severity": A.severity(cv, llm),
-    })
+    }
+    if env:                      # only add the key when the sensor gave us a reading
+        entry["env"] = env
+
+    entries = load_entries()
+    entries.append(entry)
     save_entries(entries)
 
-
 # ---------------- sidebar: input ----------------
+HW.sidebar()
 st.sidebar.title("Add a photo")
 med = st.sidebar.text_input("Medication / treatment", placeholder="e.g. hydrocortisone 1%")
 date = st.sidebar.date_input("Photo date", dt.date.today())
 crop = st.sidebar.slider("Center crop % (cut out background)", 40, 100, 80)
-use_camera = st.sidebar.toggle("Use camera instead of upload")
+use_camera = st.sidebar.toggle("Use camera instead of upload", key="use_camera")
 photo = st.sidebar.camera_input("Take photo") if use_camera else st.sidebar.file_uploader(
     "Upload photo", type=["jpg", "jpeg", "png"])
 
 if st.sidebar.button("Analyze & save", type="primary", disabled=not (photo and med)):
     with st.spinner("Analyzing..."):
-        add_entry(photo.getvalue(), date, med, crop)
+        add_entry(photo.getvalue(), date, med, crop, env=HW.latest_reading())
+    HW.on_photo_saved()
     st.rerun()
 
 with st.sidebar.expander("Demo data loader"):
@@ -87,6 +93,7 @@ if st.sidebar.button("Reset all data"):
 st.title("Eczema Tracker")
 st.caption("Photo-based trend tracking. Not a medical diagnosis. Talk to a clinician about "
            "treatment decisions.")
+HW.live_panel()
 
 entries = load_entries()
 if not entries:
